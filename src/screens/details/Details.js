@@ -1,58 +1,49 @@
-import React, { useEffect, useState, setState } from "react";
-import Header from "../../common/header/Header";
-import {
-  Typography,
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-} from "@material-ui/core";
-import "./Details.css";
-import ReactPlayer from "react-player";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
-import Rating from "@material-ui/lab/Rating";
-import { withStyles } from "@material-ui/core/styles";
-import { Link } from "react-router-dom";
-import moment from "moment";
+import React, { useEffect, useState } from 'react';
+import Header from '../../common/header/Header';
+import { Typography, ImageList, ImageListItem, ImageListItemBar } from '@material-ui/core';
+import './Details.css';
+import ReactPlayer from 'react-player';
+import StarBorderIcon from '@material-ui/icons/StarBorder';
+import Rating from '@material-ui/lab/Rating';
+import { withStyles } from '@material-ui/core/styles';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 const UseStyles = withStyles({
   iconFilled: {
-    color: "yellow",
-  },
+    color: 'yellow'
+  }
 })(Rating);
 
 export default function Details(props) {
   const [movie_detail, set_movie_detail] = useState({
-    poster_url: "",
+    poster_url: '',
     artists: [],
-    title: "",
+    title: '',
     genres: [],
     duration: 0,
-    release_date: "",
+    release_date: '',
     rating: 0,
-    storyline: "",
-    id: "",
-    wiki_url: "",
-    trailer_url: "",
-    censor_board_rating: "",
+    storyline: '',
+    id: '',
+    wiki_url: '',
+    trailer_url: '',
+    censor_board_rating: ''
   });
 
   async function data() {
-    const rawData = await fetch(
-      props.baseUrl + "movies/" + props.match.params.id,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Cache-Control": "no-cache",
-        },
+    const rawData = await fetch(props.baseUrl + 'movies/' + props.match.params.id, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-cache'
       }
-    );
+    });
     const data = await rawData.json();
     set_movie_detail(data);
   }
 
   const handleRatingChange = (value) => {
-    console.log(value);
     set_movie_detail({ ...movie_detail, rating: value * 2 });
   };
 
@@ -62,19 +53,14 @@ export default function Details(props) {
 
   return (
     <>
-      <Header
-        baseUrl={props.baseUrl}
-        movieid={movie_detail.id}
-        detailButton
-      ></Header>
+      <Header baseUrl={props.baseUrl} movieid={movie_detail.id} detailButton></Header>
       <Typography
-        style={{ margin: "8px 0 0 24px", height: "24px" }}
+        style={{ margin: '8px 0 0 24px', height: '24px' }}
         component="button"
         variant="button"
         className="backBtn"
-        color="primary"
-      >
-        <Link to="/" style={{ textDecoration: "none" }}>
+        color="primary">
+        <Link to="/" style={{ textDecoration: 'none' }}>
           &lt; Back to Home
         </Link>
       </Typography>
@@ -83,12 +69,10 @@ export default function Details(props) {
           <img className="poster" src={movie_detail.poster_url}></img>
         </div>
         <div className="column2">
-          <Typography variant="h4">
-            {movie_detail.title}
-          </Typography>
+          <Typography variant="h4">{movie_detail.title}</Typography>
           <Typography>
             <b>Genre: </b>
-            {movie_detail.genres.join(", ")}
+            {movie_detail.genres.join(', ')}
           </Typography>
           <Typography>
             <b>Duration: </b>
@@ -96,7 +80,7 @@ export default function Details(props) {
           </Typography>
           <Typography>
             <b>Release Date: </b>
-            {moment(movie_detail.release_date).format("ddd MMM DD YYYY")}
+            {moment(movie_detail.release_date).format('ddd MMM DD YYYY')}
           </Typography>
           <Typography>
             <b>Rating: </b>
@@ -106,7 +90,7 @@ export default function Details(props) {
           <Typography>
             <b>Plot: </b>
             <a href={movie_detail.wiki_url}>(Wiki Link)</a>
-            {" " + movie_detail.storyline}
+            {' ' + movie_detail.storyline}
           </Typography>
           <br />
           <Typography>
@@ -128,16 +112,14 @@ export default function Details(props) {
             }}
             icon={<StarBorderIcon fontSize="inherit" />}
           />
-          <Typography style={{ margin: "16px 0" }}>
+          <Typography style={{ margin: '16px 0' }}>
             <b>Artists:</b>
           </Typography>
           <ImageList cols={2}>
             {movie_detail.artists.map((artist) => (
               <ImageListItem key={artist.id}>
                 <img src={artist.profile_url} />
-                <ImageListItemBar
-                  title={artist.first_name + " " + artist.last_name}
-                />
+                <ImageListItemBar title={artist.first_name + ' ' + artist.last_name} />
               </ImageListItem>
             ))}
           </ImageList>

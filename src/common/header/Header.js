@@ -1,61 +1,57 @@
-import React, { useState } from "react";
-import logo from "../../assets/logo.svg";
-import "./Header.css";
-import Button from "@material-ui/core/Button";
-import Modal from "react-modal";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import InputLabel from "@material-ui/core/InputLabel";
+import React, { useState } from 'react';
+import logo from '../../assets/logo.svg';
+import './Header.css';
+import Button from '@material-ui/core/Button';
+import Modal from 'react-modal';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import FormControl from '@material-ui/core/FormControl';
+import Input from '@material-ui/core/Input';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const customStyles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
 };
 
 function TabPanel(props) {
   const { index, value, children } = props;
   return (
     <div>
-      <div hidden={value !== index}>
-        {value === index && <div>{children}</div>}
-      </div>
+      <div hidden={value !== index}>{value === index && <div>{children}</div>}</div>
     </div>
   );
 }
 
 export default function Header(props) {
-  const [session, setSession] = useState(
-    window.sessionStorage.getItem("access-token")
-  );
+  const [session, setSession] = useState(window.sessionStorage.getItem('access-token'));
   const [showModal, setShowModal] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [value, setValue] = useState(0);
   const [registerUserForm, setRegisterUserForm] = useState({
-    email_address: "",
-    first_name: "",
-    last_name: "",
-    mobile_number: "",
-    password: "",
+    email_address: '',
+    first_name: '',
+    last_name: '',
+    mobile_number: '',
+    password: ''
   });
-  const [reqemail, setReqEmail] = useState("dispNone");
-  const [reqfirstname, setReqFirstName] = useState("dispNone");
-  const [reqlastname, setReqLastName] = useState("dispNone");
-  const [reqmobile, setReqMobile] = useState("dispNone");
-  const [reqpass, setReqPass] = useState("dispNone");
-  const [username, setUsername] = useState("");
-  const [requsername, setReqUserName] = useState("dispNone");
-  const [password, setPassword] = useState("");
-  const [reqpassword, setReqPassword] = useState("dispNone");
-  const [showdisplay, setShowDisplay] = useState("dispNone");
+  const [reqemail, setReqEmail] = useState('dispNone');
+  const [reqfirstname, setReqFirstName] = useState('dispNone');
+  const [reqlastname, setReqLastName] = useState('dispNone');
+  const [reqmobile, setReqMobile] = useState('dispNone');
+  const [reqpass, setReqPass] = useState('dispNone');
+  const [username, setUsername] = useState('');
+  const [requsername, setReqUserName] = useState('dispNone');
+  const [password, setPassword] = useState('');
+  const [reqpassword, setReqPassword] = useState('dispNone');
+  const [showdisplay, setShowDisplay] = useState('dispNone');
 
   const inputChangedHandler = (event) => {
     const state = registerUserForm;
@@ -72,9 +68,9 @@ export default function Header(props) {
   };
 
   const validateLoginForm = () => {
-    username === "" ? setReqUserName("dispBlock") : setReqUserName("dispNone");
-    password === "" ? setReqPassword("dispBlock") : setReqPassword("dispNone");
-    if (username === "" || password === "") {
+    username === '' ? setReqUserName('dispBlock') : setReqUserName('dispNone');
+    password === '' ? setReqPassword('dispBlock') : setReqPassword('dispNone');
+    if (username === '' || password === '') {
       return;
     } else {
       return true;
@@ -82,28 +78,18 @@ export default function Header(props) {
   };
 
   const validateRegisterForm = () => {
-    registerUserForm.email_address === ""
-      ? setReqEmail("dispBlock")
-      : setReqEmail("dispNone");
-    registerUserForm.first_name === ""
-      ? setReqFirstName("dispBlock")
-      : setReqFirstName("dispNone");
-    registerUserForm.last_name === ""
-      ? setReqLastName("dispBlock")
-      : setReqLastName("dispNone");
-    registerUserForm.mobile_number === ""
-      ? setReqMobile("dispBlock")
-      : setReqMobile("dispNone");
-    registerUserForm.password === ""
-      ? setReqPass("dispBlock")
-      : setReqPass("dispNone");
+    registerUserForm.email_address === '' ? setReqEmail('dispBlock') : setReqEmail('dispNone');
+    registerUserForm.first_name === '' ? setReqFirstName('dispBlock') : setReqFirstName('dispNone');
+    registerUserForm.last_name === '' ? setReqLastName('dispBlock') : setReqLastName('dispNone');
+    registerUserForm.mobile_number === '' ? setReqMobile('dispBlock') : setReqMobile('dispNone');
+    registerUserForm.password === '' ? setReqPass('dispBlock') : setReqPass('dispNone');
 
     if (
-      registerUserForm.email_address === "" ||
-      registerUserForm.first_name === "" ||
-      registerUserForm.last_name === "" ||
-      registerUserForm.mobile_number === "" ||
-      registerUserForm.password === ""
+      registerUserForm.email_address === '' ||
+      registerUserForm.first_name === '' ||
+      registerUserForm.last_name === '' ||
+      registerUserForm.mobile_number === '' ||
+      registerUserForm.password === ''
     ) {
       return;
     } else {
@@ -115,41 +101,38 @@ export default function Header(props) {
 
   const onLoginFormSubmitted = () => {
     if (validateLoginForm()) {
-      fetch(props.baseUrl + "auth/login", {
-        method: "POST",
+      fetch(props.baseUrl + 'auth/login', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
-          authorization: "Basic " + window.btoa(username + ":" + password),
-        },
+          'Content-Type': 'application/json',
+          authorization: 'Basic ' + window.btoa(username + ':' + password)
+        }
       })
         .then((response) => {
           if (response.status === 200) {
-            window.sessionStorage.setItem(
-              "access-token",
-              response.headers.get("access-token")
-            );
-            setSession(window.sessionStorage.getItem("access-token"));
+            window.sessionStorage.setItem('access-token', response.headers.get('access-token'));
+            setSession(window.sessionStorage.getItem('access-token'));
             closeModal();
           }
         })
         .catch((err) => {
-          console.log(err.message);
+          console.error(err.message);
         });
     }
   };
 
-  const onFormSubmitted = async (event) => {
+  const onFormSubmitted = async () => {
     if (validateRegisterForm()) {
-      const rawResponse = await fetch(props.baseUrl + "/signup", {
-        method: "POST",
+      const rawResponse = await fetch(props.baseUrl + '/signup', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(registerUserForm),
+        body: JSON.stringify(registerUserForm)
       });
       const data = await rawResponse.json();
-      if (data.status === "ACTIVE") {
-        setShowDisplay("dispBlock");
+      if (data.status === 'ACTIVE') {
+        setShowDisplay('dispBlock');
       }
     }
   };
@@ -158,7 +141,7 @@ export default function Header(props) {
     setValue(newValue);
   };
 
-  Modal.setAppElement("#root");
+  Modal.setAppElement('#root');
   const openModal = () => {
     setShowModal(true);
     setIsOpen(true);
@@ -167,17 +150,16 @@ export default function Header(props) {
     setIsOpen(false);
   };
   const logoutHandler = async () => {
-    const rawResponse = await fetch(props.baseUrl + "/auth/logout", {
-      method: "POST",
+    const rawResponse = await fetch(props.baseUrl + '/auth/logout', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        authorization: "Basic " + window.btoa(username + ":" + password),
-      },
+        'Content-Type': 'application/json',
+        authorization: 'Basic ' + window.btoa(username + ':' + password)
+      }
     });
-    window.sessionStorage.removeItem("access-token");
-    setSession(window.sessionStorage.getItem("access-token"));
-    const data = await rawResponse.json();
-    console.log(data);
+    window.sessionStorage.removeItem('access-token');
+    setSession(window.sessionStorage.getItem('access-token'));
+    await rawResponse.json();
   };
 
   const bookShowHandler = () => {
@@ -198,24 +180,22 @@ export default function Header(props) {
   return (
     <div className="header">
       <img src={logo} alt="" className="rotate" />
-      <span style={{ float: "right" }}>
+      <span style={{ float: 'right' }}>
         {bookshowBtn}
         {session ? (
           <Button
             variant="contained"
             color="default"
-            style={{ marginLeft: "10px" }}
-            onClick={logoutHandler}
-          >
+            style={{ marginLeft: '10px' }}
+            onClick={logoutHandler}>
             Logout
           </Button>
         ) : (
           <Button
             variant="contained"
             color="default"
-            style={{ marginLeft: "10px" }}
-            onClick={openModal}
-          >
+            style={{ marginLeft: '10px' }}
+            onClick={openModal}>
             Login
           </Button>
         )}
@@ -225,27 +205,20 @@ export default function Header(props) {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}
-          contentLabel="Example Modal"
-        >
+          contentLabel="Example Modal">
           <Tabs
             value={value}
             indicatorColor="secondary"
             onChange={handleChange}
-            aria-label="disabled tabs example"
-          >
+            aria-label="disabled tabs example">
             <Tab label="Login" />
             <Tab label="Register" />
           </Tabs>
           <TabPanel value={value} index={0}>
-            <div style={{ margin: "20px", padding: "0 20px" }}>
+            <div style={{ margin: '20px', padding: '0 20px' }}>
               <FormControl required className="formControl">
                 <InputLabel htmlFor="username">Username</InputLabel>
-                <Input
-                  id="username"
-                  name="username"
-                  type="text"
-                  onChange={inputUserNameHandler}
-                />
+                <Input id="username" name="username" type="text" onChange={inputUserNameHandler} />
                 <FormHelperText className={requsername}>
                   <span className="red">Required</span>
                 </FormHelperText>
@@ -267,19 +240,15 @@ export default function Header(props) {
               <br />
               <br />
               <br />
-              <div style={{ textAlign: "center" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={onLoginFormSubmitted}
-                >
+              <div style={{ textAlign: 'center' }}>
+                <Button variant="contained" color="primary" onClick={onLoginFormSubmitted}>
                   Login
                 </Button>
               </div>
             </div>
           </TabPanel>
           <TabPanel value={value} index={1}>
-            <div style={{ margin: "20px", padding: "0 20px" }}>
+            <div style={{ margin: '20px', padding: '0 20px' }}>
               <FormControl required className="formControl">
                 <InputLabel htmlFor="first_name">First Name</InputLabel>
                 <Input
@@ -354,19 +323,12 @@ export default function Header(props) {
               </FormControl>
               <br />
               <br />
-              <FormHelperText
-                className={showdisplay}
-                style={{ fontSize: "14px", color: "black" }}
-              >
+              <FormHelperText className={showdisplay} style={{ fontSize: '14px', color: 'black' }}>
                 Registration Successful. Please Login!
               </FormHelperText>
               <br />
-              <div style={{ textAlign: "center" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={onFormSubmitted}
-                >
+              <div style={{ textAlign: 'center' }}>
+                <Button variant="contained" color="primary" onClick={onFormSubmitted}>
                   Register
                 </Button>
               </div>
