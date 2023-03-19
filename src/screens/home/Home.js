@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, BrowserRouter as Router } from "react-router-dom";
 import moment from "moment";
+import Header from "../../common/header/Header";
 import "./Home.css";
 import {
   ImageList,
@@ -176,6 +177,7 @@ function Home(props) {
 
   return (
     <>
+      <Header baseUrl={props.baseUrl}></Header>
       <header className="head">Upcoming Movies</header>
       <ImageList rowHeight={250} cols={6}>
         <div className="grid_scroll" style={{ width: "100%" }}>
